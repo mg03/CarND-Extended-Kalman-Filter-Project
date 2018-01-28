@@ -1,0 +1,45 @@
+Vagrant.configure(2) do |config|
+  # Ubuntu 16.04
+  config.vm.box = "ubuntu/xenial64"
+
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.name = "carnd_ekf"
+    vb.gui = true                           # if you want headless comment this out
+    vb.cpus = "1"
+#    vb.customize ["modifyvm", :id, "--monitorcount", "2"]   if we want on two monitors
+    vb.memory = "2048"
+    vb.customize [ "modifyvm", :id, "--natdnshostresolver1", "on" ]
+    vb.customize [ "modifyvm", :id, "--ioapic", "on" ]
+    # THe following helps to sync time between guest and host so that when we do development on mac and build on 
+    # guest make doesnt cry.
+    # Compare the time every 10 seconds 
+    vb.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-interval", "10000" ] 
+    # Only change when it is ±0.1s out. 
+    vb.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-min-adjust", "100" ] 
+    # Resync time when we restart. 
+    vb.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-on-restore", "1" ] 
+    # Only change by 1 second at a time. Changing the time a lot can confuse processes that interrogate the time to do their work. 
+    vb.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000" ] 
+  end
+
+  config.ssh.forward_agent = true
+
+#  config.vm.network "forwarded_port", guest: 8080, host: 38080
+#  config.vm.network "forwarded_port", guest: 3000, host: 33000
+
+  config.vm.network "forwarded_port", guest: 4567, host: 4567
+
+  config.vm.network "forwarded_port", guest: 22, host: 32222, id: "ssh"
+
+#LOCAL_PATH is something like /Users/cpp_workspace 
+#VM_PATH example /opt/cpp_workspace
+
+  config.vm.synced_folder ENV['LOCAL_PATH'], ENV['VM_PATH']
+
+  config.vm.provision :shell do |s|
+    s.env = {VM_PATH:ENV['VM_PATH']}
+    s.path = './install_stuff.sh'
+    s.privileged = true
+  end
+end

@@ -2,12 +2,26 @@
 #define TOOLS_H_
 #include <vector>
 #include "Eigen/Dense"
+#include <memory>
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using namespace std;
 
-class Tools {
+/*
+Abstract Pure Virtual class to help with uit test and mocking
+*/
+class ITools {
+public:
+  ITools(){};
+  virtual ~ITools(){};
+  virtual VectorXd CalculateRMSE(const vector<VectorXd> &estimations, const vector<VectorXd> &ground_truth) = 0;
+  virtual MatrixXd CalculateJacobian(const VectorXd& x_state) = 0;
+  virtual VectorXd p2c(const VectorXd& polar) = 0;
+  virtual VectorXd c2p(const VectorXd& cartesian) = 0;
+};
+
+class Tools: public ITools {
 public:
   /**
   * Constructor.
@@ -28,6 +42,18 @@ public:
   * A helper method to calculate Jacobians.
   */
   MatrixXd CalculateJacobian(const VectorXd& x_state);
+
+  /*
+  * A helper method to convert polar to cartesian
+  */
+
+  VectorXd p2c(const VectorXd& polar);
+
+  /*
+  * A helper method to map cartesian to polar 
+  */
+
+  VectorXd c2p(const VectorXd& cartesian);
 
 };
 

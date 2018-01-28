@@ -39,7 +39,8 @@ private:
   long long previous_timestamp_;
 
   // tool object used to compute Jacobian and RMSE
-  Tools tools;
+  /*Using shared_ptr helps in RAII */
+  std::shared_ptr<ITools> tools;
   Eigen::MatrixXd R_laser_;
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;

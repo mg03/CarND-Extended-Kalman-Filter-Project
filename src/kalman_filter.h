@@ -1,6 +1,7 @@
 #ifndef KALMAN_FILTER_H_
 #define KALMAN_FILTER_H_
 #include "Eigen/Dense"
+#include "tools.h"
 
 class KalmanFilter {
 public:
@@ -63,6 +64,16 @@ public:
    * @param z The measurement at k+1
    */
   void UpdateEKF(const Eigen::VectorXd &z);
+
+private:
+  /**
+   * Calculates new state 
+   * @param y The diff between measurement and prediction
+   */
+  void calupdateandnewstate(const Eigen::VectorXd &y);
+  // Tools tools;
+
+  std::shared_ptr<ITools> tools;
 
 };
 
