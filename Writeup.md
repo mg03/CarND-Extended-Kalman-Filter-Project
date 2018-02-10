@@ -58,7 +58,8 @@ Run the filter inside the virtual machine by executing ./ExtendedKF inside the b
 ```
 /ExtendedKF
 Listening to port 4567
-Connected!!!```
+Connected!!!
+```
 
 Connection successful.
 
