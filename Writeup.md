@@ -120,7 +120,7 @@ Different type of measurements are handled in two places in [src/FusionEKF.cpp](
 
 An example of this calculation optimization is when the Q matrix is calculated [src/kalman_filter.cpp](./src/kalman_filter.cpp#L41) line 41 and line 63.
 
-Made utility functions for polar to cartesian and vice versa in [src/tools.cpp](./src/toops.cpp#L62) lines 81 and 102
+Made utility functions for polar to cartesian and vice versa in [src/tools.cpp](./src/tools.cpp#L81) lines 81 and 102
 
 
 
