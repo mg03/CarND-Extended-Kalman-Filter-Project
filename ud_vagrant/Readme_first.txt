@@ -1,4 +1,4 @@
-USing VirtualBox to code and running sim on mac book 
+Setup for using VirtualBox to code and running sim on mac book 
 
 Install VirtualBox and Vagrant
 
@@ -15,8 +15,8 @@ Run `vagrant up`
 
 In order to ssh in the machine
 
-ssh carndekf@127.0.0.1 -p 32222
-Provide password:   password123   
+ssh vagrant@127.0.0.1 -p 32222
+Provide password:   vagrant   
 You can change it before provisioning by changing it in the install_stuff.sh file
 
 Try to sudo.

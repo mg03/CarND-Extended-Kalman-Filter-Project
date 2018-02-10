@@ -36,7 +36,7 @@ void KalmanFilter::Update(const VectorXd &z) {
     * update the state by using Kalman Filter equations
   */
   VectorXd z_pred = H_ * x_;
-  VectorXd y = z - z_pred;
+  VectorXd y = z - z_pred;   // diff between z(measurement) and z_pred(prediction)
 
   calupdateandnewstate(y);
 
@@ -75,4 +75,6 @@ void KalmanFilter::calupdateandnewstate(const VectorXd &y) {
   long x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * H_) * P_;
+
+  NIS_ = y.transpose() * Si * y;    // normalized innovation squared
 }

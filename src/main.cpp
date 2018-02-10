@@ -4,6 +4,8 @@
 #include <math.h>
 #include "FusionEKF.h"
 #include "tools.h"
+#include <fstream>
+#include <stdio.h>
 
 using namespace std;
 
@@ -38,7 +40,15 @@ int main()
   vector<VectorXd> estimations;
   vector<VectorXd> ground_truth;
 
-  h.onMessage([&fusionEKF,&tools,&estimations,&ground_truth](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+  // ofstream NISfile;
+  // NISfile.open("NISfile.txt", ios::out | ios::app);
+  FILE * NISfile;
+  NISfile = fopen("NISfile.txt", "w");
+  if ( NISfile != 0 ) {
+    fprintf(NISfile, "Type,NIS,EstPx,EstPy,EstVx,EstVy,GtPx,GtPy,GtVx,GtVy\n");
+  }
+
+  h.onMessage([&fusionEKF,&tools,&estimations,&ground_truth,&NISfile](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
@@ -117,6 +127,16 @@ int main()
       	  double v1  = fusionEKF.ekf_.x_(2);
       	  double v2 = fusionEKF.ekf_.x_(3);
 
+          double NIS = fusionEKF.ekf_.NIS_;
+
+          if ( NISfile != 0) {
+            if (sensor_type.compare("L") == 0) {
+              fprintf(NISfile, "L,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", NIS, p_x, p_y, v1, v2, x_gt, y_gt, vx_gt, vy_gt );
+            } else if (sensor_type.compare("R") == 0) {
+              fprintf(NISfile, "R,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", NIS, p_x, p_y, v1, v2, x_gt, y_gt, vx_gt, vy_gt );
+            }
+          }
+
       	  estimate(0) = p_x;
       	  estimate(1) = p_y;
       	  estimate(2) = v1;
@@ -171,7 +191,8 @@ int main()
     std::cout << "Connected!!!" << std::endl;
   });
 
-  h.onDisconnection([&h](uWS::WebSocket<uWS::SERVER> ws, int code, char *message, size_t length) {
+  h.onDisconnection([&h,&NISfile](uWS::WebSocket<uWS::SERVER> ws, int code, char *message, size_t length) {
+    fclose(NISfile);
     ws.close();
     std::cout << "Disconnected" << std::endl;
   });

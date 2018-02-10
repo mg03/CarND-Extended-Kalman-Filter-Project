@@ -24,6 +24,15 @@ public:
   // measurement covariance matrix
   Eigen::MatrixXd R_;
 
+  // //* the current NIS for radar
+  // double NIS_radar_;
+
+  // ///* the current NIS for laser
+  // double NIS_laser_;
+
+  //Normalized Innovation Squared
+  double NIS_;
+
   /**
    * Constructor
    */
