@@ -92,6 +92,8 @@ Accuracy of EKF:
 - Dataset 1: RMSE <= [0.0973178, 0.0854597, 0.451267, 0.439935]
 - Dataset 2: RMSE <= [0.0725678, 0.0964738, 0.421634, 0.493199]
 
+In the visulisations folder, the [visualize.html](./visualize/visualization.html) shows that the Estimations track the Ground truth values as shown in cells 2,3,4 and 5 .  It also shows that the Normalised Innovation Squared satisfies chi-squared test i.e. most values fall within 2 standard deviations as seen in cells 8 and 9.
+
 ## Following the Correct Algorithm
 
 ### Your Sensor Fusion algorithm follows the general processing flow as taught in the preceding lessons.
