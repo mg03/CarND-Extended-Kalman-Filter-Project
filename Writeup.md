@@ -75,7 +75,7 @@ Simulator Output with dataset1
 
 Simulator Output with dataset2
 
-"[![Simulator Dataset2 Run](https://img.youtube.com/vi/YM5zFhSGfm4/0.jpg)](https://www.youtube.com/watch?v=YM5zFhSGfm4)"
+[![Simulator Dataset2 Run](https://img.youtube.com/vi/YM5zFhSGfm4/0.jpg)](https://www.youtube.com/watch?v=YM5zFhSGfm4)
 
 ## Compiling
 
@@ -120,7 +120,7 @@ Different type of measurements are handled in two places in [src/FusionEKF.cpp](
 
 An example of this calculation optimization is when the Q matrix is calculated [src/kalman_filter.cpp](./src/kalman_filter.cpp#L41) line 41 and line 63.
 
-Made utility functions for polar to cartesian and vice versa in tools.cpp lines 81 and 102
+Made utility functions for polar to cartesian and vice versa in [src/tools.cpp](./src/toops.cpp#L62) lines 81 and 102
 
 
 
